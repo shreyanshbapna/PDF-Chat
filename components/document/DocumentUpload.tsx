@@ -12,6 +12,9 @@ export const DocumentUpload = () => {
                 body: formData,
             });
 
+            const data = await res.json();
+
+            document.getElementById("message-input")?.setAttribute("data-document-id", data.documentId);
         }
     }
     return (

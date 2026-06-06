@@ -8,8 +8,6 @@ generator client {
   previewFeatures = ["postgresqlExtensions"]
 }
 
-
-
 enum Role {
   user
   assistant
@@ -42,8 +40,9 @@ model ChatMessage {
 model Document {
   id         String   @id @default(uuid())
   content    String
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
+  name       String
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())
   chunks     Chunk[]
   messages   ChatMessage[]

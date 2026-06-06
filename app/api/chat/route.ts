@@ -5,18 +5,18 @@ export async function Post(request: Request) {
 
     const response = await prisma.chatMessage.create({
         data: {
+            role: 'user',
             message,
             documentId,
         },
     });
 
     
-
-    if (!response.ok) {
+    if (!response) {
         throw new Error('Failed to fetch response from the server');
     }
 
-    const data = await response.json();
+    const data = await response;
     return new Response(JSON.stringify(data), {
         headers: { 'Content-Type': 'application/json' },
     }); 
