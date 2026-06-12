@@ -2,8 +2,6 @@
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 dotenv.config();
-import {prisma} from '@/lib/prisma';
-
 
 const client = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
@@ -17,9 +15,10 @@ export const CreateEmbeddings = async (chunks: string[]) => {
             const response = await client.embeddings.create({
                 model: 'text-embedding-3-small',
                 input: chunk,
+                encoding_format: "float",
             });
 
-            const embedding = `[${response.data[0].embedding.join(",")}]`;
+            const embedding: string = `[${response.data[0].embedding.join(",")}]`;
 
             return {
                 embedding: embedding,
@@ -28,4 +27,14 @@ export const CreateEmbeddings = async (chunks: string[]) => {
         }),
   );
   return vectors;
+};
+
+
+export const createSingleTextEmbedding = async (text: string): Promise<string> => {
+  const response = await client.embeddings.create({
+    model: 'text-embedding-3-small',
+    input: text,
+    encoding_format: "float",
+  });
+  return `[${response.data[0].embedding.join(",")}]`;
 };

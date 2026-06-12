@@ -9,7 +9,8 @@ export const ChatComponent = () => {
                 
                 const messageInput = document.getElementById("message-input") as HTMLInputElement;
                 const documentId = messageInput.getAttribute("data-document-id");
-
+                console.log("Document ID:", documentId);
+                if (!documentId) return;
 
                 await axios.post(`/api/documents/${documentId}/chat`, {
                     message: messageInput.value,
