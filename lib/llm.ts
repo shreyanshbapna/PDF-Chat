@@ -12,9 +12,8 @@ export const generateContent = async ({
   context: string[];
   question: string;
 }) => {
-
   const apiResponse = await client.chat.completions.create({
-    model: 'nvidia/nemotron-3-ultra-550b-a55b:free', // follows instructions properly
+    model: "nvidia/nemotron-3-ultra-550b-a55b:free", // follows instructions properly
     messages: [
       {
         role: "system",
@@ -29,9 +28,8 @@ export const generateContent = async ({
         role: "user",
         content: question,
       },
-    ], 
-  }
-);  
+    ],
+  });
 
   return apiResponse.choices[0].message.content;
 };
