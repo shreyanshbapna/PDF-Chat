@@ -29,10 +29,41 @@ export async function POST(
     ORDER BY "embedding" <=> ${questionEmbedding}::vector
     LIMIT 5
   `;
-  
+
   // Generate a response using the relevant chunks as context
-  const context = relevantChunks.map((chunk: { content: string }) => chunk.content);
+  const context = relevantChunks.map(
+    (chunk: { content: string }) => chunk.content,
+  );
   const response = await generateContent({ context, question: message });
   console.log("Generated response:", response);
-  return NextResponse.json({ id, message });
+
+  if (!response) {
+    throw new Error("Failed to generate response");
+  }
+
+  await prisma.chatMessage.create({
+    data: {
+      role: "assistant",
+      message: response,
+      documentId: id,
+    },
+  });
+
+
+  return NextResponse.json({ message: response });
+}
+
+// app/api/documents/[id]/route.ts — get all chat messages for a specific document
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
+  const messages = await prisma.chatMessage.findMany({
+    where: { documentId: id },
+    orderBy: { createdAt: "asc" },
+  });
+   console.log("Messages from DB:", messages);
+
+  return NextResponse.json({ messages });
 }

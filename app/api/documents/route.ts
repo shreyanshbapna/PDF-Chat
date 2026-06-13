@@ -1,14 +1,12 @@
 import { prisma } from "@/lib/prisma";
 
-export async function GET(requrest: Request) {
-    const response = await prisma.document.findMany(
-        {
-            orderBy: {
-                createdAt: 'desc',
-            },
-        }
-    );
-    return new Response(JSON.stringify(response), {
-        headers: { 'Content-Type': 'application/json' },
-    });
+
+// app/api/documents/route.ts — list all documents
+export async function GET() {
+  const documents = await prisma.document.findMany({
+    orderBy: { createdAt: "desc" },
+    select: { id: true, name: true, createdAt: true },
+  });
+   return Response.json({ documents });
+
 }
