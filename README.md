@@ -95,8 +95,8 @@ User Question → Embed Question → Cosine Similarity Search → Relevant Chunk
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/pdf-chat.git
-cd pdf-chat
+https://github.com/shreyanshbapna/PDF-Chat.git
+cd PDF-Chat
 ```
 
 ### 2. Install dependencies
@@ -211,7 +211,7 @@ LIMIT 5
 - Dimensions: `1536`
 
 ### LLM
-- Model: `meta-llama/llama-3.3-70b-instruct:free` (via OpenRouter)
+- Model: `nvidia/nemotron-3-ultra-550b-a55b:free` (via OpenRouter)
 - Context: Top 5 most relevant chunks passed as system prompt
 
 ---
