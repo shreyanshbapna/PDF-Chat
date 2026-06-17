@@ -34,6 +34,7 @@ export async function POST(
   const context = relevantChunks.map(
     (chunk: { content: string }) => chunk.content,
   );
+  
   const response = await generateContent({ context, question: message });
   console.log("Generated response:", response);
 
